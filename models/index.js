@@ -17,7 +17,6 @@ const Page = db.define('page', {
     hooks: {
         beforeValidate: (page, options) => {
              page.urlTitle = page.title.replace(/\s/g, "_");
-            //page.urlTitle = "HELLO-----";
             
         }
     }
@@ -32,6 +31,9 @@ const User = db.define('user', {
     }
 
 })
+
+//db.User.belongsTo(Page)  ;
+
 
 
 

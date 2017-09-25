@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 var models = require('../models');
+const sequelize = require('sequelize');
 var Page = models.Page; 
 var User = models.User; 
 
@@ -32,7 +33,25 @@ router.get('/add', function(req, res, next) {
 });
 
 router.get('/:pageName', function(req, res, next) {
-    res.send(req.params.pageName);
+    
+    Page.findOne({
+        where: {
+            urlTitle: req.params.pageName
+        }
+    }).then((thisPage) => {
+        return thisPage.id;
+    }).then(User.findOne({
+        where: {
+            id: pageID
+        }
+    }));
+        
+
+    .then((foundPage)=> {
+        res.render('wikipage',{title: foundPage.title, content:foundPage.content } )
+        //res.json(foundPage);
+    })
+   .catch(next);
 });
 
 
